@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rifa Solidária Celular Redmi 11 PRO 5G</title>
+  <style>
+    :root {
+      --bg:#0a1220;
+      --text:#f1f5f9;
+      --accent:#facc15; /* dourado */
+      --available:#22c55e; /* verde */
+      --selected:#dc2626; /* vermelho */
+      --sold:#6b7280;
+      --card:#0d162b;
+    }
+    *{box-sizing:border-box;font-family:'Poppins',system-ui,Roboto,sans-serif}
+    body{margin:0;background:linear-gradient(180deg,#071021,#0d162b);color:var(--text);}
+    header{
+      text-align:center;
+      background:linear-gradient(135deg,#0a1220,#12233e);
+      padding:20px;
+      border-bottom:2px solid var(--accent);
+    }
+    header img{max-width:360px;width:90%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+    header h1{margin:12px 0 6px;font-size:1.8em;color:var(--accent);}
+    header p{margin:4px 0;font-size:1em;opacity:.9;}
+    .container{max-width:900px;margin:20px auto;padding:20px;}
+    .info{
+      background:var(--card);
+      padding:14px;
+      border-radius:12px;
+      text-align:center;
+      font-size:1.1em;
+      margin-bottom:20px;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(60px,1fr));
+      gap:8px;
+    }
+    .num{
+      border-radius:8px;
+      padding:10px 0;
+      font-weight:600;
+      cursor:pointer;
+      background:var(--available);
+      color:#041008;
+      border:2px solid transparent;
+      transition:all .1s;
+    }
+    .num.selected{background:var(--selected);color:#fff;}
+    .num.sold{background:var(--sold);cursor:not-allowed;color:#cbd5e1;}
+    .actions{
+      text-align:center;
+      margin-top:20px;
+    }
+    button{
+      background:linear-gradient(90deg,#22c55e,#166534);
+      border:none;
+      color:#fff;
+      font-weight:600;
+      padding:12px 20px;
+      border-radius:8px;
+      cursor:pointer;
+      transition:all .2s;
+    }
+    button:hover{opacity:.9;transform:scale(1.02);}
+    footer{text-align:center;padding:30px 0;color:#94a3b8;font-size:0.9em;}
+  </style>
+</head>
+<body>
+  <header>
+    <img src="WhatsApp%20Image%202025-10-07%20at%2008.44.06.jpeg" alt="Prêmio da rifa - Redmi Note 11 Pro 5G">
+    <h1>Rifa Solidária Celular Redmi 11 PRO 5G</h1>
+    <p><strong>R$ 10,00 por número</strong> • 200 números disponíveis</p>
+    <p>Participe e concorra a um smartphone novinho!</p>
+  </header>
+
+  <div class="container">
+    <div class="info">Escolha seus números e finalize pelo WhatsApp para confirmar sua participação.</div>
+    <div id="grid" class="grid"></div>
+    <div class="actions">
+      <button id="finalizar">Finalizar e enviar pelo WhatsApp</button>
+    </div>
+  </div>
+
+  <footer>© 2025 Rifa Solidária Redmi 11 PRO 5G • Desenvolvido com ❤️</footer>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const finalizar = document.getElementById('finalizar');
+    const totalNumeros = 200;
+    const numeroWhatsApp = '5521964508216';
+    const mensagemInicio = 'Olá! Quero confirmar minha participação na Rifa Solidária Redmi 11 PRO 5G. Meus números escolhidos são:';
+    const vendidos = []; // adicione aqui os números já vendidos, ex: [5,23,40]
+
+    const selecionados = new Set();
+
+    for(let i=1;i<=totalNumeros;i++){
+      const btn=document.createElement('div');
+      btn.textContent=i;
+      btn.classList.add('num');
+      if(vendidos.includes(i)) btn.classList.add('sold');
+      btn.addEventListener('click',()=>{
+        if(btn.classList.contains('sold')) return;
+        if(selecionados.has(i)) selecionados.delete(i);
+        else selecionados.add(i);
+        btn.classList.toggle('selected');
+      });
+      grid.appendChild(btn);
+    }
+
+    finalizar.addEventListener('click',()=>{
+      if(selecionados.size===0){alert('Selecione ao menos um número.');return;}
+      const nums=[...selecionados].sort((a,b)=>a-b).join(', ');
+      const msg=`${mensagemInicio} ${nums}.`;
+      const link=`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`;
+      window.open(link,'_blank');
+    });
+  </script>
+</body>
+</html>
